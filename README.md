@@ -1,3 +1,11 @@
+To run server:
+Run this followin commands
+- cd api
+- cp .env.example .env (Then edit the DATABASE)
+- composer install
+- php artisan migrate
+- php passport:install
+
 Examination Rules:
 
 - Use Laravel PHP Framework
