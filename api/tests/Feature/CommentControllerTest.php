@@ -41,6 +41,28 @@ class CommentControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_should_show_error_when_create_a_comment_post_not_found()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::create([
+            'name' => 'test',
+            'email'=>'test@gmail.com',
+            'password' => bcrypt('secret1234')
+        ]);
+        $token = $user->createToken('user')->accessToken;
+        $payload = [
+            "body" => "Test Body",
+            "post_id" => 1
+        ];
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '. $token,
+            'Accept' => 'application/json'
+        ])->post('/api/posts/sample-post/comments',$payload)
+        ->assertStatus(404);
+    }
+
+    /** @test */
     public function it_shoud_update_a_comment()
     {
         $this->withoutExceptionHandling();

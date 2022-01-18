@@ -137,6 +137,19 @@ class PostControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_shoud_show_error_post_per_slug_not_found()
+    {
+        $user = User::create([
+            'name' => 'test',
+            'email'=>'test@gmail.com',
+            'password' => bcrypt('secret1234')
+        ]);
+
+        $response = $this->json('GET', '/api/posts/first-post')
+            ->assertStatus(404);
+    }
+
+    /** @test */
     public function it_shoud_show_all_posts()
     {
         $this->json('GET', '/api/posts/')

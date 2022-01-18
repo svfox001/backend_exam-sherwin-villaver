@@ -70,6 +70,11 @@ class PostController extends Controller
     public function show($id)
     {
        $post = $this->postRepository->findBySlug($id);
+       if(!$post) {
+           return response()->json([
+               "message" => "No query results for model [App\\Post]."
+           ], 404);
+       }
        return response()->json([
            "data" => $post
        ], 200);

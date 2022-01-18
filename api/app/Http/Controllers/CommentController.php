@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment\CommentRepositoryInterface;
+use App\Post\PostRepositoryInterface;
 
 class CommentController extends Controller
 {
     private $commentRepository;
+    private $postRepository;
 
-    public function __construct(CommentRepositoryInterface $commentRepository)
-    {
+    public function __construct(
+        CommentRepositoryInterface $commentRepository,
+        PostRepositoryInterface $postRepository
+    ){
         $this->commentRepository = $commentRepository;
+        $this->postRepository = $postRepository;
     }
 
     /**
@@ -42,6 +47,14 @@ class CommentController extends Controller
      */
     public function store(Request $request, $slug)
     {
+        $post = $this->postRepository->findBySlug($slug);
+        if(!$post) {
+            return response()->json([
+                'message' => 'No query results for model App\\Post '.$slug,
+                'exception' => NotFoundHttpException::class
+            ], 404);
+        }
+
         $data = $request->all();
         $data['commentable_type'] = "App\\Post";
         $data['commentable_id'] = $request->post_id;
