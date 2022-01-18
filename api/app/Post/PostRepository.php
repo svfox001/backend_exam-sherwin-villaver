@@ -35,4 +35,9 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         return $this->model->where('slug', $slug)->first();
     }
+
+    public function paginate($count)
+    {
+        return $this->model->paginate($count);
+    }
 }

@@ -6,15 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostStoreRequest;
 use App\Post\PostRepositoryInterface;
 use App\Http\Resources\PostResource;
+use App\Post\PostTransformer;
 use Str;
 
 class PostController extends Controller
 {
     private $postRepository;
+    private $postTransformer;
 
-    public function __construct(PostRepositoryInterface $postRepository)
-    {
+    public function __construct(
+        PostRepositoryInterface $postRepository,
+        PostTransformer $postTransformer
+    ){
         $this->postRepository = $postRepository;
+        $this->postTransformer = $postTransformer;
     }
 
     /**
@@ -24,7 +29,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection($this->postRepository->all());
+        return $this->postTransformer->transform($this->postRepository->paginate(15)->toArray());
     }
 
     /**

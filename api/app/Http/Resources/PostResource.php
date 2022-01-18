@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
 {
-    use HasLinks, HasMeta;
     /**
      * Transform the resource into an array.
      *
