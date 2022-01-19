@@ -3,6 +3,7 @@ Run this followin commands
 - cd api
 - cp .env.example .env (Then edit the DATABASE)
 - composer install
+- php artisan key:generate
 - php artisan migrate
 - php passport:install
 
